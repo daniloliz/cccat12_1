@@ -2,6 +2,7 @@
 import express from "express";
 import Ride from "./Ride";
 import Passanger from "./Passanger";
+import Driver from "./Driver";
 const app = express();
 
 app.use(express.json());
@@ -23,6 +24,15 @@ app.post("/passenger", function (req, res) {
 	try {
 		const passanger = new Passanger().addPassanger(req.body.name, req.body.document, req.body.email);
 		res.json(passanger);
+	} catch (e) {
+		res.status(422).send(e.message);
+	}
+})
+
+app.post("/driver", function (req, res) {
+	try {
+		const driver = new Driver().addPDriver(req.body.name, req.body.document, req.body.email, req.body.plate);
+		res.json(driver);
 	} catch (e) {
 		res.status(422).send(e.message);
 	}

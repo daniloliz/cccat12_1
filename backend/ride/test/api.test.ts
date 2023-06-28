@@ -45,3 +45,22 @@ test("O passageiro se cadastra na plataforma fornecendo seu nome, email mas com 
 	const output = response.data;
 	expect(output).toBe("Invalid Document")
 })
+
+test("O motorista se cadastra na plataforma fornecendo seu nome, email, cpf e a placa do carro", async function () {
+	const input = { 
+		name: "Danilo", document: "070.526.139-56", email: "danilo.com", plate: "abc-1234"
+	};
+	const response = await axios.post("http://localhost:3000/driver", input);
+	const output = response.data;
+	expect(output.driver_id).toBe("123")
+})
+
+test("O motorista se cadastra na plataforma fornecendo seu nome, email, placa mas com cpf inválido", async function () {
+	const input = { 
+		name: "Danilo", document: '223', email: "danilo.com", plate: "abc-1234"
+	};
+	const response = await axios.post("http://localhost:3000/driver", input);
+	expect(response.status).toBe(422);
+	const output = response.data;
+	expect(output).toBe("Invalid Document")
+})
